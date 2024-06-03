@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        body {
+            background-color: #ffcccb;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        h1 {
+            color: #ff6347;
+            font-size: 3em;
+            margin-top: 20%;
+        }
+        .balloon {
+            position: absolute;
+            bottom: -150px;
+            width: 100px;
+            height: 150px;
+            background-color: #ff6347;
+            border-radius: 50% 50% 0 0;
+            animation: float 5s infinite ease-in-out;
+        }
+        @keyframes float {
+            0% {
+                bottom: -150px;
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(50px);
+            }
+            100% {
+                bottom: 100%;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Happy Birthday!</h1>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        // Fireworks
+        function fireworks() {
+            var duration = 15 * 1000;
+            var end = Date.now() + duration;
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 }
+                });
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+        fireworks();
+
+        // Balloons
+        function createBalloon() {
+            var balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = Math.random() * 100 + 'vw';
+            balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.body.appendChild(balloon);
+            balloon.addEventListener('animationend', () => {
+                balloon.remove();
+                createBalloon();
+            });
+        }
+
+        for (let i = 0; i < 10; i++) {
+            createBalloon();
+        }
+    </script>
+</body>
+</html>
